@@ -142,6 +142,7 @@ scheduler_events = {
 		"frappe.limits.update_space_usage"
 	],
 	"daily": [
+                "frappe.patches.cron_jobs.insert_alert_notifications.execute",
 		"frappe.email.queue.clear_outbox",
 		"frappe.desk.notifications.clear_notifications",
 		"frappe.core.doctype.error_log.error_log.set_old_logs_as_seen",
