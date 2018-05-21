@@ -11,14 +11,14 @@ import math
 def execute():
     employees = frappe.get_list(
         "Employee",
-        fields=["user_id", 
-                "valid_upto", 
+        fields=["user_id",
+                "valid_upto",
                 "alarm_passport_expiry",
                 "residence_valid_to",
                 "alarm_residence_expiry",
                 "health_inssurance_valid_to",
                 "alarm_inssurance_expiry"
-               ],
+                ],
         filters=dict(),
         ignore_ifnull=True,
         ignore_permissions=True
@@ -32,7 +32,7 @@ def execute():
         ignore_ifnull=True
     )
     for employee in employees:
-        if employee.valid_upto and datetime.strptime(
+        if employee.valid_upto and employee.alarm_passport_expiry and datetime.strptime(
                 str(employee.valid_upto)[:10],
                 '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
             remained_days = int(math.ceil((datetime.strptime(
@@ -55,8 +55,60 @@ def execute():
             for user in all_users:
                 if user.name != employee.user_id:
                     alert.append("seen_by", dict(
-                        user="",
-
+                        user=user.name,
                     ))
             alert.save(ignore_permissions=True)
 
+        if employee.residence_valid_to and employee.alarm_residence_expiry and datetime.strptime(
+                str(employee.residence_valid_to)[:10],
+                '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
+            remained_days = int(math.ceil((datetime.strptime(
+                str(employee.residence_valid_to)[:10],
+                '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
+            if remained_days % 7 != 0:
+                continue
+            alert = frappe.get_doc(
+                doctype="Note",
+                title=frappe.generate_hash("Note", 16).upper(),
+                public=1,
+                notify_on_login=1,
+                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بأن <font color="#9C0000">إقامتك على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائها<font color="#9C0000"> {} </font>فقط<br>الرجاء تجديد إقامتك وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
+                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days != 0 else "يوم واحد"
+                ),
+            )
+            alert.insert(ignore_permissions=True)
+            alert.title = "تذكير بشأن تاريخ إقامتك"
+            for user in all_users:
+                if user.name != employee.user_id:
+                    alert.append("seen_by", dict(
+                        user=user.name,
+                    ))
+            alert.save(ignore_permissions=True)
+
+        if employee.health_inssurance_valid_to and employee.alarm_inssurance_expiry and datetime.strptime(
+                str(employee.health_inssurance_valid_to)[:10],
+                '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
+            remained_days = int(math.ceil((datetime.strptime(
+                str(employee.health_inssurance_valid_to)[:10],
+                '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
+            if remained_days % 7 != 0:
+                continue
+            alert = frappe.get_doc(
+                doctype="Note",
+                title=frappe.generate_hash("Note", 16).upper(),
+                public=1,
+                notify_on_login=1,
+                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بأن <font color="#9C0000">تاريخ تأمينك الصحي على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائه<font color="#9C0000"> {} </font>فقط<br>الرجاء تجديد تأمينك الصحي وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
+                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days != 0 else "يوم واحد"
+                ),
+            )
+            alert.insert(ignore_permissions=True)
+            alert.title = "تذكير بشأن تاريخ إنتهاء تأمينك الصحي"
+            for user in all_users:
+                if user.name != employee.user_id:
+                    alert.append("seen_by", dict(
+                        user=user.name,
+                    ))
+            alert.save(ignore_permissions=True)
