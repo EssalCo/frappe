@@ -11,7 +11,14 @@ import math
 def execute():
     employees = frappe.get_list(
         "Employee",
-        fields=["user_id", "valid_upto"],
+        fields=["user_id", 
+                "valid_upto", 
+                "alarm_passport_expiry",
+                "residence_valid_to",
+                "alarm_residence_expiry",
+                "health_inssurance_valid_to",
+                "alarm_inssurance_expiry"
+               ],
         filters=dict(),
         ignore_ifnull=True,
         ignore_permissions=True
