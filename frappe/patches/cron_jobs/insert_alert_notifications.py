@@ -47,7 +47,8 @@ def execute():
                 title=frappe.generate_hash("Note", 16).upper(),
                 public=1,
                 notify_on_login=1,
-                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                notify_on_every_login=0,
+                expire_notification_on=(datetime.now() + timedelta(days=1)).date(),
                 content="""<div align="right"><b><font color="#397B21">مرحبا {0}</font><br>
 نود ثذكيرك بأن <font color="#9C0000">
 تاريخ صلاحية جواز السفر الخاص بك على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائه<font color="#9C0000"> {1} </font>
@@ -72,7 +73,8 @@ def execute():
                 title=frappe.generate_hash("Note", 16).upper(),
                 public=1,
                 notify_on_login=1,
-                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                notify_on_every_login=0,
+                expire_notification_on=(datetime.now() + timedelta(days=1)).date(),
                 content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br>.. باقٍ على تاريخ إنتهاء جواز سفره<font color="#9C0000"> {1} </font>
 </b></div>""".format(
                     full_name,
@@ -100,7 +102,8 @@ def execute():
                 title=frappe.generate_hash("Note", 16).upper(),
                 public=1,
                 notify_on_login=1,
-                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                notify_on_every_login=0,
+                expire_notification_on=(datetime.now() + timedelta(days=1)).date(),
                 content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بأن <font color="#9C0000">إقامتك على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائها<font color="#9C0000"> {} </font>فقط<br>الرجاء تجديد إقامتك وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
                     "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days > 0 else "(انتهى تاريخ الصلاحية)"
                 ),
@@ -119,7 +122,8 @@ def execute():
                 title=frappe.generate_hash("Note", 16).upper(),
                 public=1,
                 notify_on_login=1,
-                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                notify_on_every_login=0,
+                expire_notification_on=(datetime.now() + timedelta(days=1)).date(),
                 content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br>.. باقٍ على تاريخ إنتهاء إقامته<font color="#9C0000"> {1} </font>
 </b></div>""".format(
                     full_name,
@@ -143,7 +147,8 @@ def execute():
                 title=frappe.generate_hash("Note", 16).upper(),
                 public=1,
                 notify_on_login=1,
-                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                notify_on_every_login=0,
+                expire_notification_on=(datetime.now() + timedelta(days=1)).date(),
                 content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بأن <font color="#9C0000">تاريخ تأمينك الصحي على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائه<font color="#9C0000"> {} </font><br>الرجاء تجديد تأمينك الصحي وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
                     "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days > 0 else "(انتهى تاريخ الصلاحية)"
                 ),
@@ -163,7 +168,8 @@ def execute():
                 title=frappe.generate_hash("Note", 16).upper(),
                 public=1,
                 notify_on_login=1,
-                expire_notification_on=(datetime.now() + timedelta(days=6)).date(),
+                notify_on_every_login=0,
+                expire_notification_on=(datetime.now() + timedelta(days=1)).date(),
                 content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br>.. باقٍ على تاريخ إنتهاء تأمينه الصحي<font color="#9C0000"> {1} </font>
             </b></div>""".format(
                     full_name,
