@@ -40,7 +40,7 @@ def execute():
                 str(employee.valid_upto)[:10],
                 '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
             remained_days = int(math.ceil((datetime.strptime(
-                str(employee.residence_valid_to)[:10],
+                str(employee.valid_upto)[:10],
                 '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
             alert = frappe.get_doc(
                 doctype="Note",
@@ -50,12 +50,12 @@ def execute():
                 notify_on_every_login=0,
                 expire_notification_on=(datetime.now() + timedelta(days=2)).date(),
                 content="""<div align="right"><b><font color="#397B21">مرحبا {0}</font><br>
-نود ثذكيرك بأن <font color="#9C0000">
-تاريخ صلاحية جواز السفر الخاص بك على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائه<font color="#9C0000"> {1} </font>
+نود ثذكيرك بشأن <font color="#9C0000">
+تاريخ صلاحية جواز السفر الخاص بك</font><font color="#9C0000"> {1} </font>
 <br>الرجاء تجديد جواز سفرك وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br>
 </b></div>""".format(
                     full_name,
-                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days >= 0 else "(انتهى تاريخ الصلاحية)"
+                    " .. باقٍ على تاريخ إنتهاء جواز السفر أقل من ({}) أيام".format(remained_days) if remained_days > 0 else "انتهى تاريخ صلاحية جواز سفرك"
                 ),
             )
             alert.insert(ignore_permissions=True)
@@ -75,10 +75,10 @@ def execute():
                 notify_on_login=1,
                 notify_on_every_login=0,
                 expire_notification_on=(datetime.now() + timedelta(days=2)).date(),
-                content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br>.. باقٍ على تاريخ إنتهاء جواز سفره<font color="#9C0000"> {1} </font>
+                content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br><font color="#9C0000"> {1} </font>
 </b></div>""".format(
                     full_name,
-                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days >= 0 else "(انتهى تاريخ الصلاحية)"
+                    " .. باقٍ على تاريخ إنتهاء جواز السفر أقل من ({}) أيام".format(remained_days) if remained_days > 0 else "انتهى تاريخ صلاحية جواز سفره"
                 ),
             )
             alert.insert(ignore_permissions=True)
@@ -104,8 +104,8 @@ def execute():
                 notify_on_login=1,
                 notify_on_every_login=0,
                 expire_notification_on=(datetime.now() + timedelta(days=2)).date(),
-                content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بأن <font color="#9C0000">إقامتك على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائها<font color="#9C0000"> {} </font>فقط<br>الرجاء تجديد إقامتك وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
-                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days >= 0 else "(انتهى تاريخ الصلاحية)"
+                content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بشأن  <font color="#9C0000">إقامتك</font><font color="#9C0000"> {} </font>فقط<br>الرجاء تجديد إقامتك وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
+                    " .. باقٍ على تاريخ إنتهاء الإقامة أقل من ({}) أيام".format(remained_days) if remained_days > 0 else "انتهى تاريخ صلاحية الإقامة"
                 ),
             )
             alert.insert(ignore_permissions=True)
@@ -124,10 +124,10 @@ def execute():
                 notify_on_login=1,
                 notify_on_every_login=0,
                 expire_notification_on=(datetime.now() + timedelta(days=2)).date(),
-                content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br>.. باقٍ على تاريخ إنتهاء إقامته<font color="#9C0000"> {1} </font>
+                content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br><font color="#9C0000"> {1} </font>
 </b></div>""".format(
                     full_name,
-                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days >= 0 else "(انتهى تاريخ الصلاحية)"
+                    " .. باقٍ على تاريخ إنتهاء إقامته أقل من ({}) أيام".format(remained_days) if remained_days > 0 else "انتهى تاريخ صلاحية إقامته"
                 ),
             )
             alert.insert(ignore_permissions=True)
@@ -143,7 +143,7 @@ def execute():
                 str(employee.health_inssurance_valid_to)[:10],
                 '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
             remained_days = int(math.ceil((datetime.strptime(
-                str(employee.residence_valid_to)[:10],
+                str(employee.health_inssurance_valid_to)[:10],
                 '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
             alert = frappe.get_doc(
                 doctype="Note",
@@ -152,8 +152,8 @@ def execute():
                 notify_on_login=1,
                 notify_on_every_login=0,
                 expire_notification_on=(datetime.now() + timedelta(days=2)).date(),
-                content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بأن <font color="#9C0000">تاريخ تأمينك الصحي على وشك الإنتهاء</font>.. باقٍ على تاريخ إنتهائه<font color="#9C0000"> {} </font><br>الرجاء تجديد تأمينك الصحي وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
-                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days >= 0 else "(انتهى تاريخ الصلاحية)"
+                content="""<div align="right"><b><font color="#397B21">مرحبا بك</font><br>نود ثذكيرك بأن <font color="#9C0000"> تأمينك الصحي بحاجة إلى التجديد</font><font color="#9C0000"> {} </font><br>الرجاء تجديد تأمينك الصحي وتحديث بياناتك عند الموارد البشرية<br><br>نتمنى لك يوما سعيدا<br></b></div>""".format(
+                    " .. باقٍ على تاريخ إنتهائه أقل من ({}) أيام".format(remained_days) if remained_days > 0 else "انتهى تاريخ صلاحية تأمينك الصحي"
                 ),
             )
             alert.insert(ignore_permissions=True)
@@ -173,10 +173,10 @@ def execute():
                 notify_on_login=1,
                 notify_on_every_login=0,
                 expire_notification_on=(datetime.now() + timedelta(days=2)).date(),
-                content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br>.. باقٍ على تاريخ إنتهاء تأمينه الصحي<font color="#9C0000"> {1} </font>
+                content="""<div align="right"><b><font color="#397B21">الموظف {0}</font><br><font color="#9C0000"> {1} </font>
             </b></div>""".format(
                     full_name,
-                    "أقل من ({}) أسبوع".format(remained_days / 7) if remained_days >= 0 else "(انتهى تاريخ الصلاحية)"
+                    " .. باقٍ على تاريخ إنتهاء تأمينه الصحي أقل من ({}) أيام".format(remained_days) if remained_days > 0 else "انتهى تاريخ صلاحية تأمينه الصحي"
                 ),
             )
             alert.insert(ignore_permissions=True)
