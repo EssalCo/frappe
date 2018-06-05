@@ -38,7 +38,7 @@ def execute():
 
         if employee.valid_upto and employee.alarm_passport_expiry and datetime.strptime(
                 str(employee.valid_upto)[:10],
-                '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
+                '%Y-%m-%d').date() < (datetime.now() + timedelta(days=28)).date():
             remained_days = int(math.ceil((datetime.strptime(
                 str(employee.valid_upto)[:10],
                 '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
@@ -92,7 +92,7 @@ def execute():
 
         if employee.residence_valid_to and employee.alarm_residence_expiry and datetime.strptime(
                 str(employee.residence_valid_to)[:10],
-                '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
+                '%Y-%m-%d').date() < (datetime.now() + timedelta(days=28)).date():
             remained_days = int(math.ceil((datetime.strptime(
                 str(employee.residence_valid_to)[:10],
                 '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
@@ -141,7 +141,7 @@ def execute():
 
         if employee.health_inssurance_valid_to and employee.alarm_inssurance_expiry and datetime.strptime(
                 str(employee.health_inssurance_valid_to)[:10],
-                '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
+                '%Y-%m-%d').date() < (datetime.now() + timedelta(days=28)).date():
             remained_days = int(math.ceil((datetime.strptime(
                 str(employee.health_inssurance_valid_to)[:10],
                 '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
