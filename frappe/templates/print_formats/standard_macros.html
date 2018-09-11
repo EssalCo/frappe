@@ -156,10 +156,11 @@ data-fieldname="{{ df.fieldname }}" data-fieldtype="{{ df.fieldtype }}"
         {{ frappe.render_template(doc.print_heading_template, {"doc":doc}) }}
     {% else %}
     <div class="print-heading">
+    {{ doc.select_print_heading  }} {{ doc.print_heading }} {{ doc.doctype }}
 		<h2>{{ doc.select_print_heading or (doc.print_heading if doc.print_heading != None
 			else _(doc.doctype)) }}<br>
 			<small>{{ doc.sub_heading if doc.sub_heading != None
-				else _(doc.name)}}</small>
+				else doc.name}}</small>
         </h2>
     </div>
     {% endif %}
