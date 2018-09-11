@@ -217,6 +217,8 @@ frappe.PrintFormatBuilder = Class.extend({
 
 		if(!this.print_heading_template) {
 			// default print heading template
+			console.log(__(this.print_format.doc_type))
+			console.log(55555555555)
 			this.print_heading_template = '<div class="print-heading">\
 				<h2>'+__(this.print_format.doc_type)
 					+'<br><small>{{ doc.name }}</small>\
