@@ -209,7 +209,7 @@ def execute():
     expired_vahicles = frappe.db.sql("""SELECT name, `end_date`, `employee`
 from `tabVehicle` 
 WHERE `end_date` IS NOT NULL AND `end_date` < (DATE(NOW()) + INTERVAL 28 DAY)
-AND alarm_vehicle_expiry = 1;""")
+AND alarm_vehicle_expiry = 1;""", as_dict=True)
 
     for expired_vahicle in expired_vahicles:
         remained_days = int(math.ceil((datetime.strptime(
