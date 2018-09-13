@@ -12,6 +12,7 @@ def execute():
     employees = frappe.get_list(
         "Employee",
         fields=[
+            "name", 
             "user_id",
             "valid_upto",
             "alarm_passport_expiry",
@@ -34,7 +35,7 @@ def execute():
         ignore_ifnull=True
     )
     for employee in employees:
-        full_name = frappe.get_value("User", employee.user_id, "full_name")
+        full_name = frappe.get_value("User", employee.user_id, "full_name") or employee.name
 
         if employee.valid_upto and employee.alarm_passport_expiry and datetime.strptime(
                 str(employee.valid_upto)[:10],
@@ -143,6 +144,7 @@ def execute():
             )
             alert.insert(ignore_permissions=True)
             alert.title = "تذكير بشأن تاريخ الإقامة"
+            print alert.title
             for user in all_users:
                 if user.name != "Administrator":
                     alert.append("seen_by", dict(
@@ -197,6 +199,7 @@ def execute():
                 ))
             alert.insert(ignore_permissions=True)
             alert.title = "تذكير بشأن تاريخ التأمين الصحي"
+            print alert.title
             for user in all_users:
                 if user.name != "Administrator":
                     alert.append("seen_by", dict(
@@ -205,7 +208,7 @@ def execute():
             alert.save(ignore_permissions=True)
     expired_vahicles = frappe.db.sql("""SELECT name, `end_date`
 from `tabVehicle` 
-WHERE `end_date` IS NOT NULL 
+WHERE `end_date` IS NOT NULL AND `end_date` < (DATE(NOW()) + INTERVAL 28 DAY)
 AND alarm_vehicle_expiry = 1;""")
 
     for expired_vahicle in expired_vahicles:
@@ -229,6 +232,7 @@ AND alarm_vehicle_expiry = 1;""")
             ))
         alert.insert(ignore_permissions=True)
         alert.title = "تذكير بشأن تاريخ إنتهاء رخصة مركبة"
+        print alert.title
         for user in all_users:
             if user.name != "Administrator":
                 alert.append("seen_by", dict(
