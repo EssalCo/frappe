@@ -90,7 +90,7 @@ def execute():
             alert.insert(ignore_permissions=True)
             alert.title = "تذكير بشأن تاريخ صلاحية جواز السفر"
             for user in all_users:
-                if user.name != "Administrator":
+                if user.name not in ("Administrator", "mail@murbiha.com"):
                     alert.append("seen_by", dict(
                         user=user.name,
                     ))
@@ -146,7 +146,7 @@ def execute():
             alert.title = "تذكير بشأن تاريخ الإقامة"
             print alert.title
             for user in all_users:
-                if user.name != "Administrator":
+                if user.name not in ("Administrator", "mail@murbiha.com"):
                     alert.append("seen_by", dict(
                         user=user.name,
                     ))
@@ -201,7 +201,7 @@ def execute():
             alert.title = "تذكير بشأن تاريخ التأمين الصحي"
             print alert.title
             for user in all_users:
-                if user.name != "Administrator":
+                if user.name not in ("Administrator", "mail@murbiha.com"):
                     alert.append("seen_by", dict(
                         user=user.name,
                     ))
@@ -235,7 +235,7 @@ AND alarm_vehicle_expiry = 1;""", as_dict=True)
         print alert.title
         employee_user_id = frappe.get_value("Employee", expired_vahicle.employee, "user_id")
         for user in all_users:
-            if user.name not in ("Administrator", employee_user_id):
+            if user.name not in ("Administrator", employee_user_id, "mail@murbiha.com"):
                 alert.append("seen_by", dict(
                     user=user.name,
                 ))
