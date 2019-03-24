@@ -880,11 +880,11 @@ class Document(BaseDocument):
 
 	def run_post_save_methods(self):
 		"""Run standard methods after `INSERT` or `UPDATE`. Standard Methods are:
-
 		- `on_update` for **Save**.
 		- `on_update`, `on_submit` for **Submit**.
 		- `on_cancel` for **Cancel**
 		- `update_after_submit` for **Update after Submit**"""
+		if self.flags.ignore_validate: return
 		if self._action=="save":
 			self.run_method("on_update")
 		elif self._action=="submit":
