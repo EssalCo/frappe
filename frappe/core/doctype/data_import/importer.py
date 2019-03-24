@@ -391,7 +391,7 @@ def upload(rows = None, submit_after_import=None, ignore_encoding_errors=False, 
 					if not update_only:
 						doc = frappe.get_doc(doc)
 						prepare_for_insert(doc)
-						doc.flags.ignore_links = ignore_links
+						doc.flags.ignore_links = True
 						doc.insert()
 				if attachments:
 					# check file url and create a File document
