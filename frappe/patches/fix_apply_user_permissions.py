@@ -16,5 +16,7 @@ def execute():
  """)
         frappe.db.sql("""ALTER TABLE `tabCustom DocPerm` modify apply_user_permissions INT NULL DEFAULT '0';
  """)
-
+	try:
+		frappe.db.sql("""ALTER TABLE`tabUser Permission` add skip_for_doctype INT NULL DEFAULT '0';""")
+	except: pass
 
