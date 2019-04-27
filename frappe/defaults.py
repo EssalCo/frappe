@@ -198,3 +198,12 @@ def _clear_cache(parent):
 	else:
 		clear_notifications(user=parent)
 		frappe.clear_cache(user=parent)
+
+def clear_cache(user=None):
+	try:
+		if user:
+			for p in ([user] + common_keys):
+				frappe.cache().hdel("defaults", p)
+		elif frappe.flags.in_install!="frappe":
+			frappe.cache().delete_key("defaults")
+	except: pass

@@ -54,9 +54,14 @@ def get_user_permissions(user=None):
 					"skip_for_doctype": perm.skip_for_doctype.split("\n") if perm.skip_for_doctype else []
 				}
 			out[perm.allow]["docs"].append(perm.for_value)
-
-			if meta.is_nested_set():
-				out[perm.allow]["docs"].extend(frappe.db.get_descendants(perm.allow, perm.for_value))
+			try:
+				is_nested = meta.is_nested_set()
+			except:
+				is_nested = False
+			if is_nested:
+				try:
+					out[perm.allow]["docs"].extend(frappe.db.get_descendants(perm.allow, perm.for_value))
+				except: pass
 		frappe.cache().hset("user_permissions", user, out)
 	except frappe.SQLError as e:
 		if e.args[0]==1146:

@@ -215,6 +215,7 @@ CREATE TABLE `__Auth` (
 	`doctype` VARCHAR(140) NOT NULL,
 	`name` VARCHAR(255) NOT NULL,
 	`fieldname` VARCHAR(140) NOT NULL,
+	`salt` VARCHAR(140),
 	`password` VARCHAR(255) NOT NULL,
 	`encrypted` INT(1) NOT NULL DEFAULT 0,
 	PRIMARY KEY (`doctype`, `name`, `fieldname`)
