@@ -63,11 +63,6 @@ def update_password(user, pwd, doctype='User', fieldname='password', logout_all_
 		:param fieldname: fieldname (in given doctype) (for encryption)
 		:param logout_all_session: delete all other session
 	'''
-        try:
-                frappe.db.sql("""ALTER TABLE `__Auth` add `salt` VARCHAR(140);""")
-		print "done"
-        except Exception as e: print e
-
 	salt = frappe.generate_hash()
 	frappe.db.sql("""insert into __Auth (doctype, name, fieldname, `password`, salt, encrypted)
 		values (%(doctype)s, %(name)s, %(fieldname)s, password(concat(%(pwd)s, %(salt)s)), %(salt)s, 0)
