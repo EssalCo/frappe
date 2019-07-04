@@ -73,7 +73,7 @@ class User(Document):
 		if self.language == "Loading...":
 			self.language = None
 
-		if (self.name not in ["Administrator", "Guest"]) and (not self.frappe_userid):
+		if (self.name not in ["Administrator", "Guest"]) and (not getattr(self, "frappe_userid", None)):
 			self.frappe_userid = frappe.generate_hash(length=39)
 
 	def validate_roles(self):

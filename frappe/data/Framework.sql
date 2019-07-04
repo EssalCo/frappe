@@ -90,6 +90,7 @@ CREATE TABLE `tabDocPerm` (
   `import` int(1) NOT NULL DEFAULT 0,
   `share` int(1) NOT NULL DEFAULT 1,
   `print` int(1) NOT NULL DEFAULT 1,
+  `translateble` int(1)  DEFAULT 0,
   `email` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`name`),
   KEY `parent` (`parent`)
