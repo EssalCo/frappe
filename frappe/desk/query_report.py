@@ -63,7 +63,6 @@ def get_script(report_name):
 
 @frappe.whitelist()
 def run(report_name, filters=None, user=None):
-
 	report = get_report_doc(report_name)
 	if not user:
 		user = frappe.session.user
@@ -74,9 +73,9 @@ def run(report_name, filters=None, user=None):
 	if filters and isinstance(filters, string_types):
 		filters = json.loads(filters)
 
-	if not frappe.has_permission(report.ref_doctype, "report"):
-		frappe.msgprint(_("Must have report permission to access this report."),
-			raise_exception=True)
+	#if not frappe.has_permission(report.ref_doctype, "report"):
+	#	frappe.msgprint(_("Must have report permission to access this report."),
+	#		raise_exception=True)
 
 	columns, result, message, chart, data_to_be_printed = [], [], None, None, None
 	if report.report_type=="Query Report":
@@ -144,26 +143,24 @@ def export_query():
 		data = run(report_name, filters)
 		data = frappe._dict(data)
 		columns = get_columns_dict(data.columns)
-
 		result = [[]]
-
 		# add column headings
 		for idx in range(len(data.columns)):
 			result[0].append(columns[idx]["label"])
-
 		# build table from dict
 		if isinstance(data.result[0], dict):
 			for i,row in enumerate(data.result):
 				# only rows which are visible in the report
-				if row and (i+1 in visible_idx):
+				if row and (i in visible_idx):
 					row_list = []
 					for idx in range(len(data.columns)):
-						row_list.append(row.get(columns[idx]["fieldname"],""))
+					    if isinstance(row, list): continue
+					    row_list.append(row.get(columns[idx]["fieldname"],""))
 					result.append(row_list)
 				elif not row:
 					result.append([])
 		else:
-			result = result + [d for i,d in enumerate(data.result) if (i+1 in visible_idx)]
+			result = result + [d for i,d in enumerate(data.result) if (i in visible_idx)]
 
 		from frappe.utils.xlsxutils import make_xlsx
 		xlsx_file = make_xlsx(result, "Query Report")

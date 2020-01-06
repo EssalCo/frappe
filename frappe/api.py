@@ -1,3 +1,4 @@
+
 # Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 # MIT License. See license.txt
 from __future__ import unicode_literals
@@ -9,6 +10,8 @@ import frappe.client
 from frappe.utils.response import build_response
 from frappe import _
 from six.moves.urllib.parse import urlparse, urlencode
+from erpnext.utilities.send_telegram import send_msg_telegram
+
 
 def handle():
 	"""
@@ -49,7 +52,34 @@ def handle():
 		name = parts[3]
 
 	if call=="method":
+		frappe.form_dict.data = dict()
 		frappe.local.form_dict.cmd = doctype
+        	try:
+            		json_data = json.loads(frappe.request.data)
+            		for key in json_data:
+                		frappe.form_dict[key] = json_data[key]
+				frappe.form_dict.data[key] = json_data[key]
+        	except Exception as e:
+            		pass
+        	for key in frappe.request.form:
+
+            		frappe.form_dict.data[key] = frappe.request.form[key]
+			frappe.form_dict[key] = frappe.request.form[key]
+        	# Get the query string from GET url method, eg: ?search_keyword='test'&...
+        	# then split it into segments each segment has "key=value" text
+        	query_string = frappe.request.query_string.split("&") if frappe.request.query_string else []
+		# send_msg_telegram(str(query_string))
+       	 	# Loop into segments list, for each loop split text into key and value
+        	# then store them into form_dict to make keys accessible into functions.
+        	for part in query_string:
+        		part = part.split("=")
+                	key = part[0]
+                	try:
+                		value = part[1]
+                	except IndexError:
+				continue
+                	frappe.form_dict.data[key] = value
+			frappe.form_dict[key] = value
 		return frappe.handler.handle()
 
 	elif call=="resource":

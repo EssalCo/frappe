@@ -1,3 +1,35 @@
+Select Material Requests,اختر طلبات المواد
+No Material Request found,لم يتم إيجاد أي طلبات مواد
+VAT Details,تفاصيل ضريبة القيمة المضافة
+VAT DETAILS,تفاصيل ضريبة القيمة المضافة
+Make a new {0}, أنشأ مستند جديد من
+Make a new , أنشأ مستند جديد من
+,Make a new Material Request, أنشأ طلب مواد جديد
+"حدد Material Requests","اختر طلبات مواد"
+Reqd By Date,مطلوب بتاريخ
+Material Requests,طلبات المواد
+Search Term,مصطلح البحث
+Supplier Name in Arabic,اسم المورد باللغة العربية
+Tax Code,كود الضريبة
+Closing Price,سعر نهائي
+Currently no stock available in any warehouse,حاليا لا يوجد مخزون متاح في أي مستودع
+not permitted,غير مسموح به
+VAT details,تفاصيل ضريبة القيمة المضافة
+Permit Number,رقم الترخيص
+Reverse Charge Applicable,رسوم الشحن العكسي
+update rate as per last purchase,معدل التحديث وفقا لآخر عملية شراء
+link to material request,رابط لطلب المواد
+Reqd,مطلوب
+Reqd , مطلوب
+Material Requests , طلبات المواد
+Material Request,طلب المواد
+,Make a new ,أنشأ مستند جديد من
+,No , لا
+," found"," تم إيجاده"
+," Material Requests",طلبات المواد
+,Select Material Requests,اختر طلبات المواد
+
+Select Material Requests,اختر طلبات المواد
 apps/frappe/frappe/website/doctype/web_form/web_form.py +59,Please select a Amount Field.,الرجاء تحديد حقل المبلغ.
 apps/frappe/frappe/custom/doctype/customize_form/customize_form.js +284,Press Esc to close,اضغط على ESC لإغلاق
 apps/frappe/frappe/desk/form/assign_to.py +158,"A new task, {0}, has been assigned to you by {1}. {2}",مهمة جديدة، {0}، أسندت إليك بواسطة {1}. {2}
@@ -83,7 +115,6 @@ apps/frappe/frappe/config/website.py +78,Settings for Contact Us Page.,إعدا�
 apps/frappe/frappe/core/doctype/user/user.py +890,Administrator Logged In,تسجيل دخول مسؤول النظام
 DocType: Contact Us Settings,"Contact options, like ""Sales Query, Support Query"" etc each on a new line or separated by commas.",خيارات الاتصال، مثل &quot;الاستعلام المبيعات والدعم الاستعلام&quot; الخ كل على سطر جديد أو مفصولة بفواصل.
 DocType: Data Migration Run,Insert,إدراج
-apps/frappe/frappe/public/js/frappe/form/link_selector.js +22,Select {0},حدد {0}
 DocType: DocField,Color,اللون
 apps/frappe/frappe/public/js/frappe/views/reports/query_report.js +55,For ranges,للنطاقات
 DocType: Data Migration Run,Log,سجل

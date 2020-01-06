@@ -57,12 +57,15 @@ frappe.ui.form.MultiSelectDialog = Class.extend({
 			{ fieldtype: "HTML", fieldname: "results_area" },
 			{ fieldtype: "Button", fieldname: "make_new", label: __("Make a new " + me.doctype) }
 		]);
+		console.log(__("Make a new " + me.doctype));
+                console.log(__(me.doctype));
 
-		let doctype_plural = !this.doctype.endsWith('y') ? this.doctype + 's'
-			: this.doctype.slice(0, -1) + 'ies';
-
+		let doctype_plural = __(this.doctype);
+                console.log(__(doctype_plural));
+		console.log(__(__("Select {0}"), [(this.doctype=='[Select]') ? __("value") : __(doctype_plural)]));
+		console.log(this.doctype);
 		this.dialog = new frappe.ui.Dialog({
-			title: __("Select {0}", [(this.doctype=='[Select]') ? __("value") : __(doctype_plural)]),
+			title: __(__("Select {0}"), [(this.doctype=='[Select]') ? __("value") : __(doctype_plural)]),
 			fields: fields,
 			primary_action_label: __("Get Items"),
 			primary_action: function() {
@@ -76,15 +79,16 @@ frappe.ui.form.MultiSelectDialog = Class.extend({
 		this.$results = this.$wrapper.find('.results');
 		this.$make_new_btn = this.dialog.fields_dict.make_new.$wrapper;
 
-		this.$placeholder = $(`<div class="multiselect-empty-state">
-					<span class="text-center" style="margin-top: -40px;">
-						<i class="fa fa-2x fa-tags text-extra-muted"></i>
-						<p class="text-extra-muted">No ${this.doctype} found</p>
-						<button class="btn btn-default btn-xs text-muted" data-fieldtype="Button"
-							data-fieldname="make_new" placeholder="" value="">Make a new ${this.doctype}</button>
-					</span>
-				</div>`);
-
+this.no_found = __("No ") + " " + __(this.doctype) + " " + __(" found");
+this.make_a_new = __("Make a new ") + " " +  __(this.doctype);
+this.$placeholder = $(`<div class="multiselect-empty-state">
+                                        <span class="text-center" style="margin-top: -40px;">
+                                                <i class="fa fa-2x fa-tags text-extra-muted"></i>
+                                                <p class="text-extra-muted">${this.no_found}</p>
+                                                <button class="btn btn-default btn-xs text-muted" data-fieldtype="Button"
+                                                        data-fieldname="make_new" placeholder="" value="">${this.make_a_new}</button>
+                                        </span>
+                                </div>`);
 		this.args = {};
 
 		this.bind_events();
