@@ -1,4 +1,3 @@
-
 # Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 # MIT License. See license.txt
 from __future__ import unicode_literals
@@ -11,7 +10,8 @@ from frappe.utils.response import build_response
 from frappe import _
 from six.moves.urllib.parse import urlparse, urlencode
 from erpnext.utilities.send_telegram import send_msg_telegram
-
+import handler
+import traceback
 
 def handle():
 	"""
@@ -60,15 +60,29 @@ def handle():
                 		frappe.form_dict[key] = json_data[key]
 				frappe.form_dict.data[key] = json_data[key]
         	except Exception as e:
-            		pass
+ #                       send_msg_telegram(traceback.format_exc())
+
+			pass
         	for key in frappe.request.form:
 
             		frappe.form_dict.data[key] = frappe.request.form[key]
 			frappe.form_dict[key] = frappe.request.form[key]
+		try:
+                	for key in frappe.form_dict:
+
+                        	frappe.form_dict.data[key] = frappe.form_dict[key]
+		except:
+#                        send_msg_telegram(traceback.format_exc())
+
+			pass
         	# Get the query string from GET url method, eg: ?search_keyword='test'&...
         	# then split it into segments each segment has "key=value" text
-        	query_string = frappe.request.query_string.split("&") if frappe.request.query_string else []
-		# send_msg_telegram(str(query_string))
+		try:
+        		query_string = str(frappe.request.query_string.decode('utf-8').split("&")) if frappe.request.query_string else []		
+		except:
+			send_msg_telegram(traceback.format_exc())
+			query_string = list()
+
        	 	# Loop into segments list, for each loop split text into key and value
         	# then store them into form_dict to make keys accessible into functions.
         	for part in query_string:
