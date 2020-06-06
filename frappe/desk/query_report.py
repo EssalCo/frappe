@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 # MIT License. See license.txt
 
@@ -63,12 +64,15 @@ def get_script(report_name):
 
 @frappe.whitelist()
 def run(report_name, filters=None, user=None):
+	if "الإقرار الضريبي" in report_name:
+		report_name = "VAT Declaration"
 	report = get_report_doc(report_name)
 	if not user:
 		user = frappe.session.user
 
 	if not filters:
 		filters = []
+
 
 	if filters and isinstance(filters, string_types):
 		filters = json.loads(filters)

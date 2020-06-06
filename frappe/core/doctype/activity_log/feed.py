@@ -35,6 +35,16 @@ def update_feed(doc, method=None):
 				where
 					reference_doctype=%s and reference_name=%s
 					and link_doctype=%s""", (doctype, name,feed.link_doctype))
+
+			operation = "Modification"
+			if doc.flags.in_insert:
+				operation = "Creation"
+			if doc.docstatus == 1:
+				operation  = "Submitting"
+			if doc.docstatus == 2:
+				operation  = "Cancellation"
+
+
 			frappe.get_doc({
 				"doctype": "Activity Log",
 				"reference_doctype": doctype,
@@ -43,7 +53,9 @@ def update_feed(doc, method=None):
 				"full_name": get_fullname(doc.owner),
 				"reference_owner": frappe.db.get_value(doctype, name, "owner"),
 				"link_doctype": feed.link_doctype,
-				"link_name": feed.link_name
+				"link_name": feed.link_name,
+				"operation": operation
+
 			}).insert(ignore_permissions=True)
 
 def login_feed(login_manager):

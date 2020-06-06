@@ -221,7 +221,6 @@ class Document(BaseDocument):
 		self.run_before_save_methods()
 		self._validate()
 		self.set_docstatus()
-		self.flags.in_insert = False
 
 		# run validate, on update etc.
 
