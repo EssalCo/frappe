@@ -13,7 +13,7 @@ def update_feed(doc, method=None):
 	if frappe.flags.in_patch or frappe.flags.in_install or frappe.flags.in_import:
 		return
 
-	if doc._action!="save" or doc.flags.ignore_feed:
+	if (doc._action!="save" or doc.flags.ignore_feed) and not doc.doctype == "Journal Entry":
 		return
 
 	if doc.doctype == "Activity Log" or doc.meta.issingle:
@@ -36,15 +36,15 @@ def update_feed(doc, method=None):
 					reference_doctype=%s and reference_name=%s
 					and link_doctype=%s""", (doctype, name,feed.link_doctype))
 
-			operation = "Modification"
+			operation = doc.workflow_state or "Modification"
 			if doc.flags.in_insert:
 				operation = "Creation"
-			if doc.docstatus == 1:
-				operation  = "Submitting"
-			if doc.docstatus == 2:
-				operation  = "Cancellation"
-
-
+			if doc.docstatus == 1 or doc._action == "submit":
+				operation = "Submitting"
+			if doc._action == "update_after_submit":
+				operation = "Update after Submitting"
+			if doc.docstatus == 2 or doc._action == "cancel":
+				operation = "Cancellation"
 			frappe.get_doc({
 				"doctype": "Activity Log",
 				"reference_doctype": doctype,
