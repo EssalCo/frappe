@@ -36,7 +36,7 @@ def update_feed(doc, method=None):
 					reference_doctype=%s and reference_name=%s
 					and link_doctype=%s""", (doctype, name,feed.link_doctype))
 
-			operation = doc.workflow_state or "Modification"
+			operation = getattr(doc, "workflow_state", None) or "Modification"
 			if doc.flags.in_insert:
 				operation = "Creation"
 			if doc.docstatus == 1 or doc._action == "submit":

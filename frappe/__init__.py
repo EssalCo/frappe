@@ -1147,8 +1147,18 @@ def get_list(doctype, *args, **kwargs):
 		frappe.get_list("ToDo", fields="*", filters = {"description": ("like", "test%")})
 	"""
 	import frappe.model.db_query
-	return frappe.model.db_query.DatabaseQuery(doctype).execute(None, *args, **kwargs)
-
+	c = frappe.model.db_query.DatabaseQuery(doctype).execute(None, *args, **kwargs)
+	if doctype == "Company":
+		print("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+		print(doctype)
+		a= args
+		b= kwargs
+		print(a)
+		print(b)
+		print ("aaaaaaaaaaaaaaaaa")
+		print (c)
+		print("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+	return c
 def get_all(doctype, *args, **kwargs):
 	"""List database query via `frappe.model.db_query`. Will **not** check for conditions.
 	Parameters are same as `frappe.get_list`
